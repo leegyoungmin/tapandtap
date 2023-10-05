@@ -11,10 +11,7 @@ struct ContentView: View {
     @State private var scale: Int = 1
     
     var body: some View {
-        VStack {
-            Rectangle()
-                .frame(width: 30, height: 30)
-        }
+        SelectGameView()
     }
 }
 

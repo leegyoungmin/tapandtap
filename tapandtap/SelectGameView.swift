@@ -15,12 +15,14 @@ struct SelectGameView: View {
     
     var body: some View {
         VStack {
+            // Game Control Section
             GameUserControl(userCount: $userCount)
                 .padding(.horizontal, 16)
                 .disabled(isStart)
             
             Spacer()
             
+            // Game Board Section
             GameBoardView(
                 userCount: $userCount,
                 targetNumber: $targetNumber,
@@ -30,6 +32,7 @@ struct SelectGameView: View {
             
             Spacer()
             
+            // Game Start Section
             if isStart == false {
                 Button {
                     withAnimation {
