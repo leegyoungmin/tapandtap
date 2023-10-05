@@ -21,30 +21,12 @@ struct GameView: View {
             
             Spacer()
             
-            LazyVGrid(
-                columns: Array(
-                    repeating: .init(),
-                    count: 3
-                )
-            ) {
-                ForEach(1...userCount, id: \.self) { index in
-                    Button {
-                        touchIndex.append(index)
-                        withAnimation {
-                            isSelectTarget = index == targetNumber
-                        }
-                    } label: {
-                        Image(
-                            isSelectTarget && index == targetNumber ?
-                            "card_beer" : touchIndex.contains(index) ? "" : "card_back"
-                        )
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: 110, maxHeight: 150)
-                    }
-                }
-            }
-            .disabled(!isStart)
+            GameBoardView(
+                userCount: $userCount,
+                targetNumber: $targetNumber,
+                isSelectTarget: $isSelectTarget,
+                isStart: $isStart
+            )
             
             Spacer()
             
@@ -58,11 +40,12 @@ struct GameView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                 }
-                .background(Color.black)
+                .background(Color.white)
                 .cornerRadius(100)
                 .padding()
             }
         }
+        .background(.black)
         .onChange(of: isStart) { _, newValue in
             if newValue == false { return }
             
@@ -112,6 +95,41 @@ struct GameUserControl: View {
         .background(.white)
         .cornerRadius(400)
         
+    }
+}
+
+struct GameBoardView: View {
+    @Binding var userCount: Int
+    @Binding var targetNumber: Int
+    @Binding var isSelectTarget: Bool
+    @Binding var isStart: Bool
+    
+    @State private var touchIndexes: [Int] = []
+    
+    private let columns: [GridItem] = Array(repeating: .init(), count: 3)
+    
+    var body: some View {
+        LazyVGrid(columns: columns, spacing: 32) {
+            ForEach(1...userCount, id: \.self) { index in
+                Button {
+                    touchIndexes.append(index)
+                    withAnimation {
+                        isSelectTarget = index == targetNumber
+                    }
+                } label: {
+                    Image(
+                        isSelectTarget && index == targetNumber ?
+                        "card_beer" : touchIndexes.contains(index) ? "" : "card_back"
+                    )
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: 110, maxHeight: 150)
+                }
+            }
+        }
+        .disabled(
+            isStart == false || isSelectTarget == true
+        )
     }
 }
 
