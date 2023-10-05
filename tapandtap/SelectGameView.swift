@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-struct GameView: View {
+struct SelectGameView: View {
     @State private var userCount: Int = 2
     @State private var isStart: Bool = false
     @State private var targetNumber: Int = .zero
@@ -134,5 +134,5 @@ struct GameBoardView: View {
 }
 
 #Preview {
-    GameView()
+    SelectGameView()
 }
