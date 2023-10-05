@@ -10,6 +10,8 @@ struct GameView: View {
     @State private var userCount: Int = 2
     @State private var isStart: Bool = false
     @State private var targetNumber: Int = .zero
+    @State private var touchIndex: [Int] = []
+    @State private var isSelectTarget: Bool = false
     
     var body: some View {
         VStack {
@@ -27,15 +29,22 @@ struct GameView: View {
             ) {
                 ForEach(1...userCount, id: \.self) { index in
                     Button {
-                        print("Tapped Card")
+                        touchIndex.append(index)
+                        withAnimation {
+                            isSelectTarget = index == targetNumber
+                        }
                     } label: {
-                        Image(index == targetNumber ? "card_beer" : "card_back")
+                        Image(
+                            isSelectTarget && index == targetNumber ?
+                            "card_beer" : touchIndex.contains(index) ? "" : "card_back"
+                        )
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: 110, maxHeight: 150)
                     }
                 }
             }
+            .disabled(!isStart)
             
             Spacer()
             
