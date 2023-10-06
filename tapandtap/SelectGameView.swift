@@ -12,6 +12,7 @@ struct SelectGameView: View {
     @State private var targetNumber: Int = .zero
     @State private var touchIndex: [Int] = []
     @State private var isSelectTarget: Bool = false
+    @State private var isRestart: Bool = false
     @ObservedObject var questionManager = FireStoreManager()
     
     var body: some View {
@@ -29,7 +30,8 @@ struct SelectGameView: View {
                     userCount: $userCount,
                     targetNumber: $targetNumber,
                     isSelectTarget: $isSelectTarget,
-                    isStart: $isStart
+                    isStart: $isStart,
+                    touchIndexes: $touchIndex
                 )
                 
                 Spacer()
@@ -56,22 +58,34 @@ struct SelectGameView: View {
                     Color.white.opacity(0.3)
                         .ignoresSafeArea()
                     
-                    BalanceView(question: $questionManager.selectedQuestion)
+                    BalanceView(question: $questionManager.selectedQuestion, isRestart: $isRestart)
                 }
             }
         }
         .background(.black)
         .onChange(of: isStart) { _, newValue in
             if newValue == false { return }
-            
-            guard let randomNumber = (1...userCount).randomElement() else { return }
-            self.targetNumber = randomNumber
+            generateTargetNumber()
         }
         .onChange(of: isSelectTarget) { oldValue, newValue in
             if newValue {
                 questionManager.fetchQuestions()
             }
         }
+        .onChange(of: isRestart) { _, newValue in
+            if newValue {
+                touchIndex = []
+                isSelectTarget = false
+                isStart = false
+                targetNumber = .zero
+                isRestart = false
+            }
+        }
+    }
+    
+    private func generateTargetNumber() {
+        guard let randomNumber = (1...userCount).randomElement() else { return }
+        self.targetNumber = randomNumber
     }
 }
 
@@ -123,8 +137,7 @@ struct GameBoardView: View {
     @Binding var targetNumber: Int
     @Binding var isSelectTarget: Bool
     @Binding var isStart: Bool
-    
-    @State private var touchIndexes: [Int] = []
+    @Binding var touchIndexes: [Int]
     
     private let columns: [GridItem] = Array(repeating: .init(), count: 3)
     

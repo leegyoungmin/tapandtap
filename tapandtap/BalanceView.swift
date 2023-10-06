@@ -16,6 +16,8 @@ enum ButtonSelectType: Int, CaseIterable {
 
 struct BalanceView: View {
     @Binding var question: Question?
+    @Binding var isRestart: Bool
+    
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var remainTime: Int = .zero
     @State private var buttonSelect: ButtonSelectType = .none
@@ -63,6 +65,7 @@ struct BalanceView: View {
             if buttonSelect != .none {
                 Button {
                     withAnimation {
+                        isRestart = true
                         question = nil
                     }
                 } label: {
@@ -125,6 +128,6 @@ struct BalanceButton: View {
     ZStack {
         Color.black
         
-        BalanceView(question: .constant(.init(id: 1, question1: "내 직장 사람들 앞에서 방구끼고 유머있다고 칭찬 받은 애인", question2: "둘이 있는데 내 침대에서 똥 지린 애인")))
+        BalanceView(question: .constant(.init(id: 1, question1: "내 직장 사람들 앞에서 방구끼고 유머있다고 칭찬 받은 애인", question2: "둘이 있는데 내 침대에서 똥 지린 애인")), isRestart: .constant(false))
     }
 }
