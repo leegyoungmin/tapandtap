@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var scale: Int = 1
+    
     var body: some View {
-        BalanceView()
+        SelectGameView()
     }
 }
 
