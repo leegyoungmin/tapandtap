@@ -1,10 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,swift,swiftpackagemanager
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,swift,swiftpackagemanager
 
-##ignore
-/UserInterfaceState.xcuserstate
-tapandtap.xcodeproj/xcuserdata/kobe.xcuserdatad/xcschemes/xcschememanagement.plist
-
 ### macOS ###
 # General
 .DS_Store

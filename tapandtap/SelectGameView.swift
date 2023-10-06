@@ -15,38 +15,49 @@ struct SelectGameView: View {
     @ObservedObject var questionManager = FireStoreManager()
     
     var body: some View {
-        VStack {
-            // Game Control Section
-            GameUserControl(userCount: $userCount)
-                .padding(.horizontal, 16)
-                .disabled(isStart)
-            
-            Spacer()
-            
-            // Game Board Section
-            GameBoardView(
-                userCount: $userCount,
-                targetNumber: $targetNumber,
-                isSelectTarget: $isSelectTarget,
-                isStart: $isStart
-            )
-            
-            Spacer()
-            
-            // Game Start Section
-            if isStart == false {
-                Button {
-                    withAnimation {
-                        isStart = true
+        ZStack {
+            VStack {
+                // Game Control Section
+                GameUserControl(userCount: $userCount)
+                    .padding(.horizontal, 16)
+                    .disabled(isStart)
+                
+                Spacer()
+                
+                // Game Board Section
+                GameBoardView(
+                    userCount: $userCount,
+                    targetNumber: $targetNumber,
+                    isSelectTarget: $isSelectTarget,
+                    isStart: $isStart
+                )
+                
+                Spacer()
+                
+                // Game Start Section
+                if isStart == false {
+                    Button {
+                        withAnimation {
+                            isStart = true
+                        }
+                    } label: {
+                        Text("게임 시작")
+                            .frame(maxWidth: .infinity)
+                            .padding()
                     }
-                } label: {
-                    Text("게임 시작")
-                        .frame(maxWidth: .infinity)
-                        .padding()
+                    .background(Color.white)
+                    .cornerRadius(100)
+                    .padding()
                 }
-                .background(Color.white)
-                .cornerRadius(100)
-                .padding()
+            }
+            
+            if questionManager.selectedQuestion != nil {
+                ZStack {
+                    Color.white.opacity(0.3)
+                        .ignoresSafeArea()
+                    
+                    BalanceView(question: $questionManager.selectedQuestion)
+                }
             }
         }
         .background(.black)
@@ -56,15 +67,9 @@ struct SelectGameView: View {
             guard let randomNumber = (1...userCount).randomElement() else { return }
             self.targetNumber = randomNumber
         }
-        .onChange(of: isSelectTarget, { oldValue, newValue in
+        .onChange(of: isSelectTarget) { oldValue, newValue in
             if newValue {
-                sleep(1)
                 questionManager.fetchQuestions()
-            }
-        })
-        .fullScreenCover(item: $questionManager.selectedQuestion) { question in
-            VStack {
-                Text("Example")
             }
         }
     }
