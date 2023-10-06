@@ -39,7 +39,7 @@ struct BalanceView: View {
             
             Text(
                 buttonSelect == .timeOver ?
-                "대답을 하지 못했습니다. 맛있게 드세요~": buttonSelect == .none
+                "대답을 하지 못했습니다.": buttonSelect == .none
                 ? remainTime.description : ""
             )
             
@@ -63,7 +63,7 @@ struct BalanceView: View {
             .font(.system(size: 16, weight: .bold))
             .foregroundColor(.white)
             
-            if buttonSelect != .none || buttonSelect == .timeOver {
+            if buttonSelect != .none {
                 Button {
                     withAnimation {
                         isRestart = true
@@ -84,6 +84,8 @@ struct BalanceView: View {
         .cornerRadius(10)
         .padding()
         .onReceive(timer) { _ in
+            if buttonSelect == .first || buttonSelect == .second { return }
+            
             if remainTime == .zero {
                 buttonSelect = .timeOver
                 return
@@ -94,7 +96,7 @@ struct BalanceView: View {
             }
         }
         .onChange(of: buttonSelect, { oldValue, newValue in
-            if newValue != .none {
+            if newValue == .first || newValue == .second {
                 remainTime = .zero
             }
         })
