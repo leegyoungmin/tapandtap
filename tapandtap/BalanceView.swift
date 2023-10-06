@@ -9,6 +9,16 @@ import SwiftUI
 
 struct BalanceView: View {
     @Binding var question: Question?
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var remainTime: Int = .zero
+    
+    let futureData: Date = Calendar.current.date(byAdding: .second, value: 16, to: Date()) ?? Date()
+    
+    private func updateRemainTime() {
+        let remaining = Calendar.current.dateComponents([.second], from: Date(), to: futureData)
+        let second = remaining.second ?? 0
+        remainTime = second
+    }
     
     var body: some View {
         VStack {
@@ -17,6 +27,7 @@ struct BalanceView: View {
                 .fontWeight(.bold)
             
             // Timer 구현하기
+            Text(remainTime.description)
             
             HStack {
                 Button {
@@ -44,5 +55,17 @@ struct BalanceView: View {
         .background(.white)
         .cornerRadius(10)
         .padding()
+        .onReceive(timer) { _ in
+            if remainTime == .zero {
+                return
+            }
+            
+            withAnimation {
+                remainTime -= 1
+            }
+        }
+        .onAppear {
+            updateRemainTime()
+        }
     }
 }
