@@ -36,7 +36,6 @@ struct SelectGameView: View {
             // Game Start Section
             if isStart == false {
                 Button {
-                    questionManager.fetchQuestions()
                     withAnimation {
                         isStart = true
                     }
@@ -56,6 +55,17 @@ struct SelectGameView: View {
             
             guard let randomNumber = (1...userCount).randomElement() else { return }
             self.targetNumber = randomNumber
+        }
+        .onChange(of: isSelectTarget, { oldValue, newValue in
+            if newValue {
+                sleep(1)
+                questionManager.fetchQuestions()
+            }
+        })
+        .fullScreenCover(item: $questionManager.selectedQuestion) { question in
+            VStack {
+                Text("Example")
+            }
         }
     }
 }

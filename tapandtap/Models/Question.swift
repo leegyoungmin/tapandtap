@@ -4,7 +4,7 @@
 //
 //  Copyright (c) 2023 Minii All rights reserved.
 
-struct Question: Decodable, Equatable {
+struct Question: Decodable, Equatable, Identifiable {
     let id: Int
     let question1: String
     let question2: String
