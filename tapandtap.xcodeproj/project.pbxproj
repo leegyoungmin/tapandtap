@@ -11,6 +11,7 @@
 		183600832ACF1AED0091BC21 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183600822ACF1AED0091BC21 /* ContentView.swift */; };
 		183600852ACF1AEE0091BC21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 183600842ACF1AEE0091BC21 /* Assets.xcassets */; };
 		183600882ACF1AEE0091BC21 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 183600872ACF1AEE0091BC21 /* Preview Assets.xcassets */; };
+		CD74303C2ACF2B4D005681AD /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD74303B2ACF2B4D005681AD /* BalanceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		183600822ACF1AED0091BC21 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		183600842ACF1AEE0091BC21 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		183600872ACF1AEE0091BC21 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CD74303B2ACF2B4D005681AD /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				183600802ACF1AED0091BC21 /* tapandtapApp.swift */,
 				183600822ACF1AED0091BC21 /* ContentView.swift */,
+				CD74303B2ACF2B4D005681AD /* BalanceView.swift */,
 				183600842ACF1AEE0091BC21 /* Assets.xcassets */,
 				183600862ACF1AEE0091BC21 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD74303C2ACF2B4D005681AD /* BalanceView.swift in Sources */,
 				183600832ACF1AED0091BC21 /* ContentView.swift in Sources */,
 				183600812ACF1AED0091BC21 /* tapandtapApp.swift in Sources */,
 			);
