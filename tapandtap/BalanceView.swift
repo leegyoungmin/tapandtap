@@ -7,10 +7,18 @@
 
 import SwiftUI
 
+enum ButtonSelectType: Int, CaseIterable {
+    case none
+    
+    case first
+    case second
+}
+
 struct BalanceView: View {
     @Binding var question: Question?
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State private var remainTime: Int = .zero
+    @State private var buttonSelect: ButtonSelectType = .none
     
     let futureData: Date = Calendar.current.date(byAdding: .second, value: 16, to: Date()) ?? Date()
     
@@ -26,30 +34,41 @@ struct BalanceView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            // Timer 구현하기
-            Text(remainTime.description)
+            Text(
+                remainTime == .zero ? (buttonSelect != .none) ? "" : "대답을 하지 못했습니다. 맛있게 드세요~" : remainTime.description
+            )
             
             HStack {
-                Button {
+                if let question = question {
+                    BalanceButton(
+                        selectedButtonType: $buttonSelect,
+                        question: question.question1,
+                        buttonSelectType: .first,
+                        color: .red
+                    )
                     
-                } label: {
-                    Text("매일 매일 만나기")
-                        .frame(maxWidth: 150, maxHeight: 100)
+                    BalanceButton(
+                        selectedButtonType: $buttonSelect,
+                        question: question.question2,
+                        buttonSelectType: .second,
+                        color: .blue
+                    )
+                } else {
+                    Text("없엉")
                 }
-                .background(.red)
-                .cornerRadius(10)
-                
-                Button {
-                    
-                } label: {
-                    Text("한달에 한번 만나기")
-                        .frame(maxWidth: 150, maxHeight: 100)
-                }
-                .background(.blue)
-                .cornerRadius(10)
             }
             .font(.system(size: 16, weight: .bold))
             .foregroundColor(.white)
+            
+            if buttonSelect != .none {
+                Button {
+                    withAnimation {
+                        question = nil
+                    }
+                } label: {
+                    Text("돌아가기")
+                }
+            }
         }
         .padding()
         .background(.white)
@@ -64,8 +83,48 @@ struct BalanceView: View {
                 remainTime -= 1
             }
         }
+        .onChange(of: buttonSelect, { oldValue, newValue in
+            if newValue != .none {
+                remainTime = .zero
+            }
+        })
         .onAppear {
             updateRemainTime()
         }
+    }
+}
+
+struct BalanceButton: View {
+    @Binding var selectedButtonType: ButtonSelectType
+    let question: String
+    let buttonSelectType: ButtonSelectType
+    let color: Color
+    
+    var body: some View {
+        Button {
+            withAnimation {
+                selectedButtonType = buttonSelectType
+            }
+            
+        } label: {
+            Text(question)
+                .frame(maxWidth: 150, maxHeight: 100)
+        }
+        .padding(.horizontal, 4)
+        .padding(.vertical, 8)
+        .background(
+            selectedButtonType == .none ?
+            color : selectedButtonType == buttonSelectType ? color : Color.gray.opacity(0.2)
+        )
+        .cornerRadius(10)
+        .disabled(selectedButtonType != .none)
+    }
+}
+
+#Preview {
+    ZStack {
+        Color.black
+        
+        BalanceView(question: .constant(.init(id: 1, question1: "내 직장 사람들 앞에서 방구끼고 유머있다고 칭찬 받은 애인", question2: "둘이 있는데 내 침대에서 똥 지린 애인")))
     }
 }
