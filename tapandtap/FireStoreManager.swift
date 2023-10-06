@@ -26,7 +26,7 @@ final class FireStoreManager: ObservableObject {
             
             self?.getQuestions(to: snapshot.documents) { questions in
                 self?.questions = questions
-                Thread.sleep(until: .now + 0.5)
+                Thread.sleep(forTimeInterval: TimeInterval(0.5))
                 self?.selectedQuestion = questions.randomElement()
             }
         }

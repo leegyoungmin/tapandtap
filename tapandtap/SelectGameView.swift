@@ -17,6 +17,8 @@ struct SelectGameView: View {
     
     var body: some View {
         ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            
             VStack {
                 // Game Control Section
                 GameUserControl(userCount: $userCount)
@@ -62,17 +64,16 @@ struct SelectGameView: View {
                 }
             }
         }
-        .background(.black)
-        .onChange(of: isStart) { _, newValue in
-            if newValue == false { return }
+        .onChange(of: isStart, perform: { value in
+            if value == false { return }
             generateTargetNumber()
-        }
-        .onChange(of: isSelectTarget) { oldValue, newValue in
-            if newValue {
+        })
+        .onChange(of: isSelectTarget, perform: { value in
+            if value {
                 questionManager.fetchQuestions()
             }
-        }
-        .onChange(of: isRestart) { _, newValue in
+        })
+        .onChange(of: isRestart) { newValue in
             if newValue {
                 touchIndex = []
                 isSelectTarget = false
@@ -126,7 +127,7 @@ struct GameUserControl: View {
         }
         .font(.system(size: 18))
         .padding()
-        .background(.white)
+        .background(Color.white)
         .cornerRadius(400)
         
     }

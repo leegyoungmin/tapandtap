@@ -80,7 +80,7 @@ struct BalanceView: View {
             }
         }
         .padding()
-        .background(.white)
+        .background(Color.white)
         .cornerRadius(10)
         .padding()
         .onReceive(timer) { _ in
@@ -95,7 +95,7 @@ struct BalanceView: View {
                 remainTime -= 1
             }
         }
-        .onChange(of: buttonSelect, { oldValue, newValue in
+        .onChange(of: buttonSelect, perform: { newValue in
             if newValue == .first || newValue == .second {
                 remainTime = .zero
             }
