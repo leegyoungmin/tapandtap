@@ -12,6 +12,7 @@ struct SelectGameView: View {
     @State private var targetNumber: Int = .zero
     @State private var touchIndex: [Int] = []
     @State private var isSelectTarget: Bool = false
+    @ObservedObject var questionManager = FireStoreManager()
     
     var body: some View {
         VStack {
@@ -54,6 +55,17 @@ struct SelectGameView: View {
             
             guard let randomNumber = (1...userCount).randomElement() else { return }
             self.targetNumber = randomNumber
+        }
+        .onChange(of: isSelectTarget, { oldValue, newValue in
+            if newValue {
+                sleep(1)
+                questionManager.fetchQuestions()
+            }
+        })
+        .fullScreenCover(item: $questionManager.selectedQuestion) { question in
+            VStack {
+                Text("Example")
+            }
         }
     }
 }
