@@ -12,6 +12,7 @@ struct SelectGameView: View {
     @State private var targetNumber: Int = .zero
     @State private var touchIndex: [Int] = []
     @State private var isSelectTarget: Bool = false
+    @ObservedObject var questionManager = FireStoreManager()
     
     var body: some View {
         VStack {
@@ -35,6 +36,7 @@ struct SelectGameView: View {
             // Game Start Section
             if isStart == false {
                 Button {
+                    questionManager.fetchQuestions()
                     withAnimation {
                         isStart = true
                     }
