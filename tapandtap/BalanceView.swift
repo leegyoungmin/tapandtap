@@ -12,6 +12,7 @@ enum ButtonSelectType: Int, CaseIterable {
     
     case first
     case second
+    case timeOver
 }
 
 struct BalanceView: View {
@@ -37,7 +38,9 @@ struct BalanceView: View {
                 .fontWeight(.bold)
             
             Text(
-                remainTime == .zero ? (buttonSelect != .none) ? "" : "대답을 하지 못했습니다. 맛있게 드세요~" : remainTime.description
+                buttonSelect == .timeOver ?
+                "대답을 하지 못했습니다. 맛있게 드세요~": buttonSelect == .none
+                ? remainTime.description : ""
             )
             
             HStack {
@@ -55,14 +58,12 @@ struct BalanceView: View {
                         buttonSelectType: .second,
                         color: .blue
                     )
-                } else {
-                    Text("없엉")
                 }
             }
             .font(.system(size: 16, weight: .bold))
             .foregroundColor(.white)
             
-            if buttonSelect != .none {
+            if buttonSelect != .none || buttonSelect == .timeOver {
                 Button {
                     withAnimation {
                         isRestart = true
@@ -70,7 +71,12 @@ struct BalanceView: View {
                     }
                 } label: {
                     Text("돌아가기")
+                        .frame(maxWidth: .infinity)
                 }
+                .padding()
+                .background(Color.black)
+                .foregroundColor(.white)
+                .cornerRadius(10)
             }
         }
         .padding()
@@ -79,6 +85,7 @@ struct BalanceView: View {
         .padding()
         .onReceive(timer) { _ in
             if remainTime == .zero {
+                buttonSelect = .timeOver
                 return
             }
             
