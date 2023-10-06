@@ -8,47 +8,41 @@
 import SwiftUI
 
 struct BalanceView: View {
+    @Binding var question: Question?
+    
     var body: some View {
-        ZStack {
-            Color(UIColor.systemGray).opacity(0.5).ignoresSafeArea()
+        VStack {
+            Text("밸런스 게임")
+                .font(.title)
+                .fontWeight(.bold)
             
-            VStack {
-                Text("밸런스 게임")
-                    .font(.title)
-                    .fontWeight(.bold)
-                
-                // Timer 구현하기
-                
-                HStack {
-                    Button {
-                        
-                    } label: {
-                        Text("매일 매일 만나기")
-                            .frame(maxWidth: 150, maxHeight: 100)
-                    }
-                    .background(.red)
-                    .cornerRadius(10)
+            // Timer 구현하기
+            
+            HStack {
+                Button {
                     
-                    Button {
-                        
-                    } label: {
-                        Text("한달에 한번 만나기")
-                            .frame(maxWidth: 150, maxHeight: 100)
-                    }
-                    .background(.blue)
-                    .cornerRadius(10)
+                } label: {
+                    Text("매일 매일 만나기")
+                        .frame(maxWidth: 150, maxHeight: 100)
                 }
-                .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.white)
+                .background(.red)
+                .cornerRadius(10)
+                
+                Button {
+                    
+                } label: {
+                    Text("한달에 한번 만나기")
+                        .frame(maxWidth: 150, maxHeight: 100)
+                }
+                .background(.blue)
+                .cornerRadius(10)
             }
-            .padding()
-            .background(.white)
-            .cornerRadius(10)
-            .padding()
+            .font(.system(size: 16, weight: .bold))
+            .foregroundColor(.white)
         }
+        .padding()
+        .background(.white)
+        .cornerRadius(10)
+        .padding()
     }
-}
-
-#Preview {
-    BalanceView()
 }
